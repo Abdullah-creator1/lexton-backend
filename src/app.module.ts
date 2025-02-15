@@ -6,6 +6,9 @@ import { DatabaseModule } from './database/database.module';
 import { AuthModule } from './auth/auth.module';
 import { MediaModule } from './media/media.module';
 import { TruckerModule } from './trucker/trucker.module';
+import { CustomerModule } from './customer/customer.module';
+import { ChargesModule } from './charges/charges.module';
+
 
 @Module({
   imports: [
@@ -13,7 +16,10 @@ import { TruckerModule } from './trucker/trucker.module';
     DatabaseModule,
     AuthModule,
     MediaModule,
-    TruckerModule
+    TruckerModule,
+    CustomerModule,
+    ChargesModule,
+ 
   ],
   controllers: [AppController],
   providers: [AppService],

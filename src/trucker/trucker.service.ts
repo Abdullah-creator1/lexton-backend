@@ -14,19 +14,30 @@ export class TruckerService {
 
     async createTrucker(dto: CreateTruckerDto) {
         const result = await this.db.query(
-            `INSERT INTO truckers (user_id, company_name, company_legal_name, company_other_name, rating, first_name, last_name, phone, cell, email_1, email_2, accounting_email_3, accounting_email_4, state, zip_code, city, group_department_port_terminal, address_1, address_2, dot_number, mc_number, tariff_number, website, status, scac_code, account, hazardous, reefer, customs_bonded, over_weight, full_truckload, less_than_truckload, container_drayage, out_of_gauge, iso_tanks, trans_loading, flatbed, open_tops, residential, heavy_haul, conestoga, triaxles, warehouse, storage, long_haul, documentation, notes, is_deleted) 
-            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, $26, $27, $28, $29, $30, $31, $32, $33, $34, $35, $36, $37, $38, $39, $40, $41, $42, $43, $44, $45, $46, $47, $48, $49) RETURNING *`,
+            `INSERT INTO truckers (
+                company_name, company_legal_name, company_other_name, rating, first_name, last_name, phone, cell, 
+                email_1, email_2, accounting_email_3, accounting_email_4, state, zip_code, city, group_department_port_terminal, 
+                address_1, address_2, dot_number, mc_number, tariff_number, website, status, scac_code, account, hazardous, 
+                reefer, customs_bonded, over_weight, full_truckload, less_than_truckload, container_drayage, out_of_gauge, 
+                iso_tanks, trans_loading, flatbed, open_tops, residential, heavy_haul, conestoga, triaxles, warehouse, 
+                storage, long_haul, documentation, notes, is_deleted
+            ) 
+            VALUES (
+                $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, 
+                $25, $26, $27, $28, $29, $30, $31, $32, $33, $34, $35, $36, $37, $38, $39, $40, $41, $42, $43, $44, $45, $46, 
+                $47
+            ) RETURNING *`,
             [
-                dto.user_id, dto.company_name, dto.company_legal_name, dto.company_other_name, dto.rating,
-                dto.first_name, dto.last_name, dto.phone, dto.cell, dto.email_1, dto.email_2, dto.accounting_email_3,
-                dto.accounting_email_4, dto.state, dto.zip_code, dto.city, dto.group_department_port_terminal, dto.address_1,
-                dto.address_2, dto.dot_number, dto.mc_number, dto.tariff_number, dto.website, dto.status, dto.scac_code,
-                dto.account, dto.hazardous, dto.reefer, dto.customs_bonded, dto.over_weight, dto.full_truckload,
-                dto.less_than_truckload, dto.container_drayage, dto.out_of_gauge, dto.iso_tanks, dto.trans_loading,
-                dto.flatbed, dto.open_tops, dto.residential, dto.heavy_haul, dto.conestoga, dto.triaxles, dto.warehouse,
-                dto.storage, dto.long_haul, dto.documentation, dto.notes, false
+                dto.company_name, dto.company_legal_name, dto.company_other_name, dto.rating, dto.first_name, 
+                dto.last_name, dto.phone, dto.cell, dto.email_1, dto.email_2, dto.accounting_email_3, dto.accounting_email_4, 
+                dto.state, dto.zip_code, dto.city, dto.group_department_port_terminal, dto.address_1, dto.address_2, dto.dot_number, 
+                dto.mc_number, dto.tariff_number, dto.website, dto.status, dto.scac_code, dto.account, dto.hazardous, dto.reefer, 
+                dto.customs_bonded, dto.over_weight, dto.full_truckload, dto.less_than_truckload, dto.container_drayage, dto.out_of_gauge, 
+                dto.iso_tanks, dto.trans_loading, dto.flatbed, dto.open_tops, dto.residential, dto.heavy_haul, dto.conestoga, dto.triaxles, 
+                dto.warehouse, dto.storage, dto.long_haul, dto.documentation, dto.notes, false // is_deleted
             ]
         );
+        
         return result.rows[0];
     }
 
