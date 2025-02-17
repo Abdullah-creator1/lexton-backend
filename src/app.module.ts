@@ -8,6 +8,8 @@ import { MediaModule } from './media/media.module';
 import { TruckerModule } from './trucker/trucker.module';
 import { CustomerModule } from './customer/customer.module';
 import { ChargesModule } from './charges/charges.module';
+import { FirmCodesModule } from './firm-codes/firm-codes.module';
+
 
 
 @Module({
@@ -19,7 +21,8 @@ import { ChargesModule } from './charges/charges.module';
     TruckerModule,
     CustomerModule,
     ChargesModule,
- 
+    FirmCodesModule,
+
   ],
   controllers: [AppController],
   providers: [AppService],
