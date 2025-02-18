@@ -10,6 +10,7 @@ import { CustomerModule } from './customer/customer.module';
 import { ChargesModule } from './charges/charges.module';
 import { FirmCodesModule } from './firm-codes/firm-codes.module';
 import { QuotationModule } from './quotation/quotation.module';
+import { LocationsModule } from './locations/locations.module';
 
 
 
@@ -24,6 +25,7 @@ import { QuotationModule } from './quotation/quotation.module';
     ChargesModule,
     FirmCodesModule,
     QuotationModule,
+    LocationsModule,
 
   ],
   controllers: [AppController],
