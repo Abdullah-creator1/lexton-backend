@@ -1,11 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsString, IsInt, IsOptional, IsBoolean, IsEmail, IsNumber } from 'class-validator';
+import { IsString, IsInt, IsOptional, IsBoolean, IsEmail, IsNumber, IsEnum, IsArray, ArrayMinSize } from 'class-validator';
+import { TruckersStatus } from './truckers.enum';
+
 
 export class CreateTruckerDto {
-  @ApiProperty()
-  @IsNumber()
-  user_id: number;
-
   @ApiProperty()
   @IsString()
   company_name: string;
@@ -36,8 +34,8 @@ export class CreateTruckerDto {
   last_name?: string;
 
   @ApiProperty()
-  @IsString()
-  phone: string;
+  @IsNumber()
+  phone: number;
 
   @ApiProperty()
   @IsOptional()
@@ -65,8 +63,8 @@ export class CreateTruckerDto {
 
   @ApiProperty()
   @IsOptional()
-  @IsString()
-  state?: string;
+  @IsNumber()
+  state?: number;
 
   @ApiProperty()
   @IsOptional()
@@ -80,8 +78,8 @@ export class CreateTruckerDto {
 
   @ApiProperty()
   @IsOptional()
-  @IsString()
-  group_department_port_terminal?: string;
+  @IsNumber()
+  group_department_port_terminal?: number;
 
   @ApiProperty()
   @IsOptional()
@@ -100,8 +98,8 @@ export class CreateTruckerDto {
 
   @ApiProperty()
   @IsOptional()
-  @IsString()
-  mc_number?: string;
+  @IsNumber()
+  mc_number?: number;
 
   @ApiProperty()
   @IsOptional()
@@ -113,20 +111,16 @@ export class CreateTruckerDto {
   @IsString()
   website?: string;
 
-  @ApiProperty()
+  @ApiProperty({ enum: TruckersStatus, default: TruckersStatus.ACTIVATED })
   @IsOptional()
   @IsString()
-  status?: string;
+  @IsEnum(TruckersStatus, { message: 'Status must be either Activated, Deactivated or Dispute' })
+  status?: TruckersStatus;
 
   @ApiProperty()
   @IsOptional()
   @IsString()
   scac_code?: string;
-
-  @ApiProperty()
-  @IsOptional()
-  @IsString()
-  account?: string;
 
   @ApiProperty()
   @IsOptional()
@@ -230,6 +224,18 @@ export class CreateTruckerDto {
 
   @ApiProperty()
   @IsOptional()
+  @IsArray()
+  @ArrayMinSize(0)  // Ensure at least one media file if provided
+  @IsNumber({}, { each: true }) // Each value in the array must be a number (media ID)
+  browse?: number[]=[];
+
+  @ApiProperty()
+  @IsOptional()
   @IsString()
   notes?: string;
+
+  @ApiProperty()
+  @IsOptional()
+  @IsString()
+  fi_si?: string;
 }

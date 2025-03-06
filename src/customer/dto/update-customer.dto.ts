@@ -1,5 +1,6 @@
-import { IsString, IsOptional, IsNumber, IsEmail } from 'class-validator';
+import { IsString, IsOptional, IsNumber, IsEmail, IsEnum, IsArray, ArrayMinSize } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
+import { TermNetDaysEnum } from './enum/customer.enum';
 
 export class UpdateCustomerDto {
   @ApiProperty()
@@ -13,8 +14,8 @@ export class UpdateCustomerDto {
 
   @ApiProperty()
   @IsOptional()
-  @IsString()
-  country?: string;
+  @IsNumber()
+  country?: number;
 
   @ApiProperty()
   @IsOptional()
@@ -38,6 +39,13 @@ export class UpdateCustomerDto {
 
   @ApiProperty()
   @IsOptional()
+  @IsArray()
+  @ArrayMinSize(1)  // Ensure at least one media file if provided
+  @IsNumber({}, { each: true }) // Each value in the array must be a number (media ID)
+  browse?: number[]=[];
+
+  @ApiProperty()
+  @IsOptional()
   @IsString()
   contact_person?: string;
 
@@ -58,13 +66,13 @@ export class UpdateCustomerDto {
 
   @ApiProperty()
   @IsOptional()
-  @IsString()
-  cell?: string;
+  @IsNumber()
+  cell?: number;
 
   @ApiProperty()
   @IsOptional()
-  @IsNumber()
-  terms?: number;
+  @IsEnum(TermNetDaysEnum, { message: 'term_net_day must be a valid ENUM value' })
+  term_net_day: TermNetDaysEnum;
 
   @ApiProperty()
   @IsOptional()

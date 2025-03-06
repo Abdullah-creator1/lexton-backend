@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common';
-import { FirmCodesService } from './firm-codes.service';
-import { FirmCodesController } from './firm-codes.controller';
 import { DatabaseModule } from 'src/database/database.module';
+import { FirmcodesController } from './firm-codes.controller';
+import { FirmcodesService } from './firm-codes.service';
 
 @Module({
   imports:[DatabaseModule],
-  controllers: [FirmCodesController],
-  providers: [FirmCodesService],
+  controllers: [FirmcodesController],
+  providers: [FirmcodesService],
 })
 export class FirmCodesModule {}

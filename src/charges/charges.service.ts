@@ -2,14 +2,15 @@ import { Injectable } from '@nestjs/common';
 import { DatabaseService } from '../database/database.service';
 import { CreateChargeDto } from './dto/create-charge.dto';
 import { UpdateChargeDto } from './dto/update-charge.dto';
+import { ChargeType } from './dto/enum/charge-type.enum';
 
 @Injectable()
 export class ChargesService {
   constructor(private readonly db: DatabaseService) {}
 
   async create(dto: CreateChargeDto) {
-    const query = `INSERT INTO charges (charge_code, charge_name, charge_type, charge_value, active) VALUES ($1, $2, $3, $4, $5) RETURNING *;`;
-    const values = [dto.chargeCode, dto.chargeName, dto.chargeType, dto.chargeValue, dto.active];
+    const query = `INSERT INTO charges ( charge_name, charge_type, charge_value, active) VALUES ($1, $2, $3, $4) RETURNING *;`;
+    const values = [ dto.chargeName, dto.chargeType, dto.chargeValue, dto.active];
     const data = await this.db.query(query, values);
     return { message: 'Charge created successfully.', data: data.rows[0] };
   }
@@ -19,7 +20,7 @@ export class ChargesService {
     const updates: string[] = [];
     const values: any[] = [];  // Explicitly define the array type
 
-    if (dto.chargeCode) updates.push(`charge_code = $${values.push(dto.chargeCode)}`);
+   
     if (dto.chargeName) updates.push(`charge_name = $${values.push(dto.chargeName)}`);
     if (dto.chargeType) updates.push(`charge_type = $${values.push(dto.chargeType)}`);
     if (dto.chargeValue) updates.push(`charge_value = $${values.push(dto.chargeValue)}`);
@@ -33,11 +34,28 @@ export class ChargesService {
     return { message: 'Charge updated successfully.', data: data.rows[0] };
 }
 
-  async findAll() {
-    const query = 'SELECT * FROM charges WHERE active = TRUE';
-    const data = await this.db.query(query);
-    return data.rows;
-  }
+async findByChargeType(chargeType: ChargeType, page: number = 1, limit: number = 10) {
+
+  const offset = (page - 1) * limit;
+
+  const totalCountQuery = `SELECT COUNT(id) AS total FROM charges WHERE charge_type = $1 `;
+  const totalCountResult = await this.db.query(totalCountQuery, [chargeType]);
+  const totalCharges = parseInt(totalCountResult.rows[0]?.total || "0", 10);
+
+  const query = `SELECT * FROM charges WHERE charge_type = $1 
+                 LIMIT $2 OFFSET $3`;
+  const values = [chargeType, limit, offset];
+
+  const data = await this.db.query(query, values);
+
+  return {
+      page,
+      totalCharges,
+      totalPages: Math.ceil(totalCharges / limit),
+      totalRecords: data.rows.length,
+      records: data.rows,
+  };
+}
 
   async softDelete(id: string) {
     const query = 'UPDATE charges SET active = FALSE WHERE id = $1 RETURNING *';

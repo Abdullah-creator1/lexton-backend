@@ -1,45 +1,21 @@
-import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
-import { FirmCodesService } from './firm-codes.service';
-import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { Controller, Get, Query, UseGuards } from '@nestjs/common';
+import { ApiBearerAuth, ApiOperation, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
-import { CreateFirmCodeDto } from './dto/create-firm-code.dto';
-import { UpdateFirmCodeDto } from './dto/update-firm-code.dto';
+import { FirmcodesService } from './firm-codes.service';
 
-@Controller('firm-codes')
-@ApiTags('firm-codes')
+@ApiTags('Firmcodes')
 @ApiBearerAuth()
 @UseGuards(AuthGuard('jwt'))
+@Controller('firmcodes')
+export class FirmcodesController {
+  constructor(private readonly firmcodesService: FirmcodesService) {}
 
-export class FirmCodesController {
-  constructor(private readonly firmCodesService: FirmCodesService) {}
-
-  @Post('create')
-  @ApiOperation({ summary: 'Create a new firm code' })
-  async create(@Body() createFirmCodeDto: CreateFirmCodeDto) {
-    return this.firmCodesService.create(createFirmCodeDto);
-  }
-
-  @Get('get')
-  @ApiOperation({ summary: 'Get all firm codes' })
-  async findAll() {
-    return this.firmCodesService.findAll();
-  }
-
-  @Get('get/:id')
-  @ApiOperation({ summary: 'Get a firm code by ID' })
-  async findOne(@Param('id') id: string) {
-    return this.firmCodesService.findOne(id);
-  }
-
-  @Post('update/:id')
-  @ApiOperation({ summary: 'Update a firm code by ID' })
-  async update(@Param('id') id: string, @Body() updateFirmCodeDto: UpdateFirmCodeDto) {
-    return this.firmCodesService.update(id, updateFirmCodeDto);
-  }
-
-  @Get('delete/:id')
-  @ApiOperation({ summary: 'Soft delete a firm code by ID' })
-  async remove(@Param('id') id: string) {
-    return this.firmCodesService.remove(id);
+  @Get('get-all')
+  @ApiOperation({ summary: 'Fetch paginated firmcodes with optional search' })
+  @ApiQuery({ name: 'page', required: false, description: 'Page number (default: 1)' })
+  @ApiQuery({ name: 'limit', required: false, description: 'limit number (default: 10)' })
+  @ApiQuery({ name: 'search', required: false, description: 'Search term for FIRM, NAME, or CITY' })
+  async getAll(@Query('page') page?: number,@Query('limit') limit?: number, @Query('search') search?: string) {
+    return this.firmcodesService.getAll(page, search,limit);
   }
 }

@@ -7,7 +7,7 @@ export class MediaService {
 
   async saveMedia(file: Express.Multer.File, entityType: string, userId: string) {
     const result = await this.db.query(
-      `INSERT INTO media (file_name, file_path, file_type, associated_entity_type, userId)
+      `INSERT INTO media (file_name, file_path, file_type, associated_entity_type, user_id)
        VALUES ($1, $2, $3, $4, $5) RETURNING *`,
       [file.filename, file.path, file.mimetype, entityType, userId]
     );

@@ -10,11 +10,6 @@ export class UpdateChargeDto {
   @ApiProperty()
   @IsOptional()
   @IsString()
-  chargeCode?: string;
-
-  @ApiProperty()
-  @IsOptional()
-  @IsString()
   chargeName?: string;
 
   @ApiProperty({ enum: ChargeType })

@@ -10,7 +10,11 @@ import { CustomerModule } from './customer/customer.module';
 import { ChargesModule } from './charges/charges.module';
 import { FirmCodesModule } from './firm-codes/firm-codes.module';
 import { QuotationModule } from './quotation/quotation.module';
-import { LocationsModule } from './locations/locations.module';
+import { DistPortModule } from './dist-port/dist-port.module';
+import { ZipCodeModule } from './zip-code/zip-code.module';
+import { StatesModule } from './states/states.module';
+import { TruckersMediaModule } from './truckers_media/truckers_media.module';
+import { CountriesModule } from './countries/countries.module';
 
 
 
@@ -25,7 +29,11 @@ import { LocationsModule } from './locations/locations.module';
     ChargesModule,
     FirmCodesModule,
     QuotationModule,
-    LocationsModule,
+    DistPortModule,
+    ZipCodeModule,
+    StatesModule,
+    TruckersMediaModule,
+    CountriesModule,
 
   ],
   controllers: [AppController],

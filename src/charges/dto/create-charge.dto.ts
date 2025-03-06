@@ -3,9 +3,6 @@ import { ApiProperty } from '@nestjs/swagger';
 import { ChargeType } from './enum/charge-type.enum';
 
 export class CreateChargeDto {
-  @ApiProperty()
-  @IsString()
-  chargeCode: string;
 
   @ApiProperty()
   @IsString()

@@ -2,9 +2,9 @@ import { ApiProperty } from '@nestjs/swagger';
 import { IsString, IsEnum, IsOptional } from 'class-validator';
 
 export enum AssociatedEntityType {
-  STORE = 'store',
-  PRODUCT = 'product',
-  CATEGORY = 'category',
+  TRUCKER = 'trucker',
+  CUSTOMER = 'customer',
+
 }
 
 export class CreateMediaDto {

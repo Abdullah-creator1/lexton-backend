@@ -4,6 +4,7 @@ import { CreateChargeDto } from './dto/create-charge.dto';
 import { UpdateChargeDto } from './dto/update-charge.dto';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiBearerAuth, ApiOperation, ApiQuery, ApiTags } from '@nestjs/swagger';
+import { ChargeType } from './dto/enum/charge-type.enum';
 
 @ApiTags('charges')
 @ApiBearerAuth()
@@ -24,10 +25,17 @@ export class ChargesController {
     return this.chargesService.update(updateChargeDto);
   }
 
-  @Get('get')
-  @ApiOperation({ summary: 'Get all active charges' })
-  async findAll() {
-    return this.chargesService.findAll();
+  @Get('find-by-type')
+  @ApiOperation({ summary: 'Find charges by charge type with pagination' })
+  @ApiQuery({ name: 'chargeType', enum: ChargeType, required: true, description: 'Type of charge' })
+  @ApiQuery({ name: 'page', required: false, example: 1, description: 'Page number (default: 1)' })
+  @ApiQuery({ name: 'limit', required: false, example: 10, description: 'Number of records per page (default: 10)' })
+  async findByChargeType(
+      @Query('chargeType') chargeType: ChargeType,
+      @Query('page') page: number = 1,
+      @Query('limit') limit: number = 10
+  ) {
+      return this.chargesService.findByChargeType(chargeType, page, limit);
   }
 
   @Get('delete')

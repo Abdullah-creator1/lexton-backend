@@ -37,4 +37,15 @@ export class AuthService {
     const result = await this.db.query('INSERT INTO users (email, password_hash,role,full_name) VALUES ($1, $2, $3, $4) RETURNING id, email', [email, password, 'admin', fullName]);
     return result.rows[0];
   }
+
+  async getUserProfile(userId: number): Promise<any> {
+    const query = `SELECT  id, email, full_name, role FROM users WHERE id = $1`;
+    const result = await this.db.query(query, [userId]);
+  
+    if (result.rows.length === 0) {
+      return 'User not found';
+    }
+  
+    return result.rows[0];  
+  }
 }

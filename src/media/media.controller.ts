@@ -34,7 +34,7 @@ export class MediaController {
         file: { type: 'string', format: 'binary' },
         associated_entity_type: {
           type: 'string',
-          enum: ['store', 'product', 'category'],
+          enum: ['trucker', 'customer'],
           description: 'Associated entity type'
         },
       },
@@ -52,6 +52,6 @@ export class MediaController {
     }
     const { associated_entity_type } = createMediaDto;
     const media = await this.mediaService.saveMedia(file, associated_entity_type, userId);
-    return { 'File uploaded successfully': media };
+    return { message:'File uploaded successfully', data: media };
   }
 }

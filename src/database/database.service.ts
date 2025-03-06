@@ -19,5 +19,6 @@ export class DatabaseService {
 
   async query(text: string, params?: any[]) {
     return this.pool.query(text, params);
+    
   }
 }
