@@ -1,4 +1,4 @@
-import { Controller, Get, Query, UseGuards } from '@nestjs/common';
+import { Controller, Get, Param, Query, UseGuards } from '@nestjs/common';
 import { ZipCodeService } from './zip-code.service';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiBearerAuth, ApiOperation, ApiQuery, ApiTags } from '@nestjs/swagger';
@@ -22,4 +22,11 @@ export class ZipCodeController {
   ) {
     return this.zipCodeService.getAll(page, search, limit);
   }
+
+   @Get('delete/:id')
+      @ApiOperation({ summary: 'Soft delete a zip code' })
+      deletezipcode(@Param('id') id: number) {
+        return this.zipCodeService.deletezipcode(id);
+      }
+
 }

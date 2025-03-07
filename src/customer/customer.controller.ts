@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Query, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Query, UseGuards, Param } from '@nestjs/common';
 import { CustomerService } from './customer.service';
 import { CreateCustomerDto } from './dto/create-customer.dto';
 import { UpdateCustomerDto } from './dto/update-customer.dto';
@@ -37,10 +37,9 @@ export class CustomerController {
     return this.customerService.updateCustomer(updateCustomerDto);
   }
 
-  @Get('delete')
+  @Get('delete/:id')
   @ApiOperation({ summary: 'Soft delete a customer' })
-  @ApiQuery({ name: 'name', required: true })
-  deleteCustomer(@Query('name') name: string) {
-    return this.customerService.deleteCustomer(name);
+  deleteCustomer(@Param('id') id: number) {
+    return this.customerService.deleteCustomer(id);
   }
 }

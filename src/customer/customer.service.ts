@@ -74,8 +74,8 @@ export class CustomerService {
     return { message: 'Customer updated successfully.' };
   }
 
-  async deleteCustomer(name: string) {
-    const result = await this.db.query('UPDATE customers SET is_deleted = TRUE WHERE name = $1 AND is_deleted = FALSE', [name]);
+  async deleteCustomer(id: number) {
+    const result = await this.db.query('UPDATE customers SET is_deleted = TRUE WHERE id = $1 AND is_deleted = FALSE', [id]);
     if (result.rowCount === 0) return 'Customer not found.';
     return { message: 'Customer deleted successfully.' };
   }

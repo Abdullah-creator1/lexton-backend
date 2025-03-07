@@ -7,13 +7,13 @@ export class ZipCodeService {
 
   async getAll(page: number = 1, search?: string, limit: number = 10) {
     const offset = (page - 1) * limit;
-    let query = `SELECT DISTINCT ON (zip) zip, city, state_id, state_name FROM zip_code`;
+    let query = `SELECT DISTINCT ON (zip) id,zip, city, state_id, state_name FROM zip_code where is_deleted = false`;
     let countQuery = `SELECT COUNT(DISTINCT zip) AS total FROM zip_code`;
     const params: any[] = [];
 
     if (search) {
-      query += ` WHERE (zip ILIKE $1 OR city ILIKE $1 OR state_name ILIKE $1)`;
-      countQuery += ` WHERE (zip ILIKE $1 OR city ILIKE $1 OR state_name ILIKE $1)`;
+      query += ` and (zip ILIKE $1 OR city ILIKE $1 OR state_name ILIKE $1)`;
+      countQuery += ` WHERE (zip ILIKE $1 OR city ILIKE $1 OR state_name ILIKE $1) and  is_deleted = false`;
       params.push(`%${search}%`);
     }
 
@@ -34,4 +34,12 @@ export class ZipCodeService {
       records: data.rows,
     };
   }
+
+  async deletezipcode(id: number) {
+
+    const result = await this.db.query('UPDATE zip_code SET is_deleted = TRUE WHERE id = $1 RETURNING *', [id]);
+    if (result.rowCount === 0) return 'zipcode not found.';
+    return { message: 'zipcode removed successfully.' };
+  }
+
 }

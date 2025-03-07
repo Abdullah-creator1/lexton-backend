@@ -38,11 +38,11 @@ async findByChargeType(chargeType: ChargeType, page: number = 1, limit: number =
 
   const offset = (page - 1) * limit;
 
-  const totalCountQuery = `SELECT COUNT(id) AS total FROM charges WHERE charge_type = $1 `;
+  const totalCountQuery = `SELECT COUNT(id) AS total FROM charges WHERE charge_type = $1 and is_deleted = FALSE`;
   const totalCountResult = await this.db.query(totalCountQuery, [chargeType]);
   const totalCharges = parseInt(totalCountResult.rows[0]?.total || "0", 10);
 
-  const query = `SELECT * FROM charges WHERE charge_type = $1 
+  const query = `SELECT * FROM charges WHERE charge_type = $1 and is_deleted = FALSE
                  LIMIT $2 OFFSET $3`;
   const values = [chargeType, limit, offset];
 
@@ -57,9 +57,10 @@ async findByChargeType(chargeType: ChargeType, page: number = 1, limit: number =
   };
 }
 
-  async softDelete(id: string) {
-    const query = 'UPDATE charges SET active = FALSE WHERE id = $1 RETURNING *';
-    const data = await this.db.query(query, [id]);
-    return { message: 'Charge deactivated successfully.', data: data.rows[0] };
+  async deletecustomer(id: number) {
+    
+    const result = await this.db.query('UPDATE charges SET is_deleted = TRUE WHERE id = $1 RETURNING *', [id]);
+    if (result.rowCount === 0) return 'charges not found.';
+    return { message: 'Charge removed successfully.' };
   }
 }

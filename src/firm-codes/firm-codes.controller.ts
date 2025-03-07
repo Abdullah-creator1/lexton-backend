@@ -1,4 +1,4 @@
-import { Controller, Get, Query, UseGuards } from '@nestjs/common';
+import { Controller, Get, Param, Query, UseGuards } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
 import { FirmcodesService } from './firm-codes.service';
@@ -18,4 +18,11 @@ export class FirmcodesController {
   async getAll(@Query('page') page?: number,@Query('limit') limit?: number, @Query('search') search?: string) {
     return this.firmcodesService.getAll(page, search,limit);
   }
+
+   @Get('delete/:id')
+    @ApiOperation({ summary: 'Soft delete a charge' })
+    deletefirmcode(@Param('id') id: number) {
+      return this.firmcodesService.deletefirmcode(id);
+    }
+
 }

@@ -7,13 +7,13 @@ export class FirmcodesService {
 
   async getAll(page: number = 1, search?: string,limit:number=10) {
     const offset = (page - 1) * limit;
-    let query = `SELECT * FROM firmcodes `;
+    let query = `SELECT * FROM firmcodes where is_deleted = FALSE `;
     const params: any[] = [];
 
   
 
     if (search) {
-      query += ` where (FIRM ILIKE $1 OR NAME ILIKE $1 OR CITY ILIKE $1)`;
+      query += ` and (FIRM ILIKE $1 OR NAME ILIKE $1 OR CITY ILIKE $1)`;
       params.push(`%${search}%`);
     }
    
@@ -33,4 +33,12 @@ export class FirmcodesService {
       records: data.rows,
     };
   }
+
+  async deletefirmcode(id: number) {
+
+    const result = await this.db.query('UPDATE firmcodes SET is_deleted = TRUE WHERE id = $1 RETURNING *', [id]);
+    if (result.rowCount === 0) return 'firmcode not found.';
+    return { message: 'firmcode removed successfully.' };
+  }
+
 }

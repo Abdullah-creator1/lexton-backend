@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Query, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Query, UseGuards, Param } from '@nestjs/common';
 import { ChargesService } from './charges.service';
 import { CreateChargeDto } from './dto/create-charge.dto';
 import { UpdateChargeDto } from './dto/update-charge.dto';
@@ -38,10 +38,9 @@ export class ChargesController {
       return this.chargesService.findByChargeType(chargeType, page, limit);
   }
 
-  @Get('delete')
+  @Get('delete/:id')
   @ApiOperation({ summary: 'Soft delete a charge' })
-  @ApiQuery({ name: 'id', required: true })
-  async remove(@Query('id') id: string) {
-    return this.chargesService.softDelete(id);
+  deletecustomer(@Param('id') id: number) {
+    return this.chargesService.deletecustomer(id);
   }
 }
