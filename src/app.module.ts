@@ -15,6 +15,8 @@ import { ZipCodeModule } from './zip-code/zip-code.module';
 import { StatesModule } from './states/states.module';
 import { TruckersMediaModule } from './truckers_media/truckers_media.module';
 import { CountriesModule } from './countries/countries.module';
+import { CustomersmediaModule } from './customersmedia/customersmedia.module';
+import { TruckersmediaModule } from './truckersmedia/truckersmedia.module';
 
 
 
@@ -34,6 +36,8 @@ import { CountriesModule } from './countries/countries.module';
     StatesModule,
     TruckersMediaModule,
     CountriesModule,
+    CustomersmediaModule,
+    TruckersmediaModule,
 
   ],
   controllers: [AppController],

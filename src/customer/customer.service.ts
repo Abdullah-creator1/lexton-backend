@@ -42,6 +42,7 @@ export class CustomerService {
       'INSERT INTO customers (name, address, country, state, city, zip, documentation, contact_person, phone, email, email_2, cell, term_net_day, penalty_percent, notes, is_deleted) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, FALSE) returning *',
       [dto.name, dto.address, dto.country, dto.state, dto.city, dto.zip, dto.documentation, dto.contact_person, dto.phone, dto.email, dto.email_2, dto.cell, dto.term_net_day, dto.penalty, dto.notes]
     );
+    debugger;
     let customerdata = result.rows[0];
     if (!dto.browse) {
         return result.rows[0];
@@ -51,7 +52,7 @@ export class CustomerService {
     if (!dto.browse || dto.browse.length === 0) {
         return customerdata;
     }
-    debugger;
+    
     const insertPromises = dto.browse.map(async (element) => {
         let query = `INSERT INTO customers_media (customer_id, media_id) VALUES ($1, $2) RETURNING *`;
         let params = [customerdata.id, element];
